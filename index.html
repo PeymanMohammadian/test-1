@@ -6,39 +6,74 @@
     <title>یافتن اعداد اول</title>
     <style>
         body {
-            font-family: 'Tahoma', sans-serif;
+            font-family: 'Vazir', Arial, sans-serif;
             text-align: center;
             margin: 0;
             padding: 0;
-            background-color: #f9f9f9;
-            direction: rtl;
+            background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
+
         h1 {
-            color: #333;
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
         }
+
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
         input[type="number"] {
-            padding: 10px;
-            font-size: 16px;
-            width: 200px;
+            padding: 15px;
+            font-size: 1.2rem;
+            width: 250px;
+            border: none;
+            border-radius: 30px;
             margin: 10px 0;
             text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+
         button {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #4CAF50;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            background: #ff8c42;
             color: white;
             border: none;
+            border-radius: 30px;
             cursor: pointer;
-            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
         }
+
         button:hover {
-            background-color: #45a049;
+            background: #e67e22;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
         }
+
         .result {
-            margin-top: 20px;
-            font-size: 18px;
-            color: #555;
+            margin-top: 30px;
+            font-size: 1.5rem;
+            color: #333;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+        }
+
+        .result span {
+            color: #e67e22;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -50,6 +85,38 @@
     <button onclick="findPrimes()">یافتن اعداد اول</button>
     <div class="result" id="result"></div>
 
-    <script src="script.js"></script>
+    <script>
+        function isPrime(num) {
+            if (num < 2) return false;
+            for (let i = 2; i <= Math.sqrt(num); i++) {
+                if (num % i === 0) return false;
+            }
+            return true;
+        }
+
+        function toPersianNumber(number) {
+            return number.toString().replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[d]);
+        }
+
+        function findPrimes() {
+            const input = document.getElementById("numberInput").value;
+            const maxNumber = parseInt(input);
+            const resultDiv = document.getElementById("result");
+
+            if (isNaN(maxNumber) || maxNumber < 1) {
+                resultDiv.innerHTML = "<span>لطفاً یک عدد معتبر بزرگ‌تر از ۰ وارد کنید.</span>";
+                return;
+            }
+
+            const primes = [];
+            for (let i = 1; i <= maxNumber; i++) {
+                if (isPrime(i)) {
+                    primes.push(toPersianNumber(i));
+                }
+            }
+
+            resultDiv.innerHTML = `اعداد اول بین ۱ تا <span>${toPersianNumber(maxNumber)}</span>: <br> ${primes.join("، ")}`;
+        }
+    </script>
 </body>
 </html>
