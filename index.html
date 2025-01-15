@@ -10,17 +10,39 @@
 
     <script>
         async function getGoldPrice() {
-            const response = await fetch('https://www.goldapi.io/api/XAU/USD', {
-                method: 'GET',
-                headers: {
-                    'x-api-key': 'YOUR_API_KEY' // اینجا کلید API خودت رو وارد کن
+            try {
+                // ارسال درخواست به API برای دریافت قیمت طلا
+                const response = await fetch('https://www.goldapi.io/api/XAU/USD', {
+                    method: 'GET',
+                    headers: {
+                        'x-access-token': 'goldapi-f88uylsm5xnuixx-io' // توکن شما
+                    }
+                });
+
+                // تبدیل داده‌های دریافتی به فرمت JSON
+                const data = await response.json();
+                
+                // نمایش داده‌ها برای دیباگ
+                console.log(data);
+
+                // نمایش قیمت طلا در صفحه
+                if (data.price) {
+                    document.getElementById('gold-price').innerText = data.price + ' USD';
+                } else {
+                    document.getElementById('gold-price').innerText = 'خطا در دریافت قیمت';
                 }
-            });
-            const data = await response.json();
-            document.getElementById('gold-price').innerText = data.price + ' USD';
+            } catch (error) {
+                // در صورت بروز خطا در درخواست
+                console.error('Error fetching gold price:', error);
+                document.getElementById('gold-price').innerText = 'خطا در ارتباط با سرور';
+            }
         }
 
+        // فراخوانی تابع برای دریافت قیمت طلا
         getGoldPrice();
+
+        // به‌روزرسانی قیمت هر 60 ثانیه
+        setInterval(getGoldPrice, 60000);
     </script>
 </body>
 </html>
