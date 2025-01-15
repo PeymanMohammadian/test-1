@@ -4,9 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>قیمت لحظه‌ای انس طلا</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        #gold-price {
+            font-size: 32px;
+            font-weight: bold;
+            color: #f39c12;
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #888;
+        }
+
+        .loading {
+            font-size: 16px;
+            color: #3498db;
+        }
+
+    </style>
 </head>
 <body>
-    <h1>قیمت لحظه‌ای انس طلا: <span id="gold-price">در حال بارگذاری...</span></h1>
+    <div class="container">
+        <h1>قیمت لحظه‌ای انس طلا</h1>
+        <div id="gold-price" class="loading">در حال بارگذاری...</div>
+        <div class="footer">آخرین به‌روزرسانی: <span id="last-updated"></span></div>
+    </div>
 
     <script>
         async function getGoldPrice() {
@@ -21,13 +71,14 @@
 
                 // تبدیل داده‌های دریافتی به فرمت JSON
                 const data = await response.json();
-                
+
                 // نمایش داده‌ها برای دیباگ
                 console.log(data);
 
                 // نمایش قیمت طلا در صفحه
                 if (data.price) {
                     document.getElementById('gold-price').innerText = data.price + ' USD';
+                    document.getElementById('last-updated').innerText = new Date().toLocaleTimeString();
                 } else {
                     document.getElementById('gold-price').innerText = 'خطا در دریافت قیمت';
                 }
