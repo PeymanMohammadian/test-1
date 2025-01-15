@@ -1,31 +1,31 @@
-function isPrime(num) {
-    if (num < 2) return false; // اعداد کمتر از ۲ اول نیستند
-    for (let i = 2; i <= Math.sqrt(num); i++) {
-        if (num % i === 0) return false; // اگر عددی بر یکی از اعداد تا جذر خودش بخش‌پذیر باشد، اول نیست
-    }
-    return true;
-}
+async function getGoldPrice() {
+    try {
+        // ارسال درخواست به API برای دریافت قیمت طلا
+        const response = await fetch('https://www.goldapi.io/api/XAU/USD', {
+            method: 'GET',
+            headers: {
+                'x-api-key': 'YOUR_API_KEY' // کلید API خودت رو اینجا وارد کن
+            }
+        });
 
-function toPersianNumber(number) {
-    return number.toString().replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[d]);
-}
+        // تبدیل داده‌های دریافتی به فرمت JSON
+        const data = await response.json();
 
-function findPrimes() {
-    const input = document.getElementById("numberInput").value; // دریافت مقدار وارد شده
-    const maxNumber = parseInt(input); // تبدیل به عدد صحیح
-    const resultDiv = document.getElementById("result");
-
-    if (isNaN(maxNumber) || maxNumber < 1) {
-        resultDiv.innerHTML = "لطفاً یک عدد معتبر بزرگ‌تر از ۰ وارد کنید.";
-        return;
-    }
-
-    const primes = [];
-    for (let i = 1; i <= maxNumber; i++) {
-        if (isPrime(i)) {
-            primes.push(toPersianNumber(i)); // اگر اول بود به لیست اضافه کن
+        // نمایش قیمت طلا در صفحه
+        if (data.price) {
+            document.getElementById('gold-price').innerText = data.price + ' USD';
+        } else {
+            document.getElementById('gold-price').innerText = 'خطا در دریافت قیمت';
         }
+    } catch (error) {
+        // در صورت بروز خطا در درخواست
+        console.error('Error fetching gold price:', error);
+        document.getElementById('gold-price').innerText = 'خطا در ارتباط با سرور';
     }
-
-    resultDiv.innerHTML = `اعداد اول بین ۱ تا ${toPersianNumber(maxNumber)}: <br> ${primes.join("، ")}`;
 }
+
+// فراخوانی تابع برای دریافت قیمت طلا
+getGoldPrice();
+
+// به‌روزرسانی قیمت هر 60 ثانیه
+setInterval(getGoldPrice, 60000);
