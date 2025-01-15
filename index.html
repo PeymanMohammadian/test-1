@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>یافتن اعداد اول</title>
+    <title>ماشین حساب پیشرفته</title>
     <style>
         body {
             font-family: 'Vazir', Arial, sans-serif;
@@ -25,97 +25,109 @@
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
         }
 
-        p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
+        .calculator {
+            background: white;
+            color: #333;
+            border-radius: 15px;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 90%;
+            max-width: 400px;
         }
 
-        input[type="number"] {
+        .calculator input[type="text"] {
+            width: 100%;
             padding: 15px;
             font-size: 1.2rem;
-            width: 250px;
-            border: none;
-            border-radius: 30px;
-            margin: 10px 0;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            border: 2px solid #e67e22;
+            border-radius: 10px;
+            text-align: right;
+            box-sizing: border-box;
         }
 
-        button {
-            padding: 15px 30px;
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .buttons button {
+            padding: 15px;
             font-size: 1.2rem;
+            border: none;
+            border-radius: 10px;
             background: #ff8c42;
             color: white;
-            border: none;
-            border-radius: 30px;
             cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
         }
 
-        button:hover {
+        .buttons button:hover {
             background: #e67e22;
             transform: translateY(-2px);
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
 
-        .result {
-            margin-top: 30px;
-            font-size: 1.5rem;
-            color: #333;
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
-            width: 90%;
-            max-width: 600px;
+        .buttons button.clear {
+            background: #e74c3c;
         }
 
-        .result span {
-            color: #e67e22;
-            font-weight: bold;
+        .buttons button.clear:hover {
+            background: #c0392b;
         }
     </style>
 </head>
 <body>
-    <h1>یافتن اعداد اول</h1>
-    <p>یک عدد وارد کنید تا تمام اعداد اول بین ۱ تا آن عدد نمایش داده شود:</p>
-    <input type="number" id="numberInput" placeholder="عدد وارد کنید" min="1">
-    <br>
-    <button onclick="findPrimes()">یافتن اعداد اول</button>
-    <div class="result" id="result"></div>
+    <h1>ماشین حساب پیشرفته</h1>
+    <div class="calculator">
+        <input type="text" id="display" placeholder="0" readonly>
+        <div class="buttons">
+            <button onclick="appendValue('7')">7</button>
+            <button onclick="appendValue('8')">8</button>
+            <button onclick="appendValue('9')">9</button>
+            <button onclick="appendValue('/')">÷</button>
+
+            <button onclick="appendValue('4')">4</button>
+            <button onclick="appendValue('5')">5</button>
+            <button onclick="appendValue('6')">6</button>
+            <button onclick="appendValue('*')">×</button>
+
+            <button onclick="appendValue('1')">1</button>
+            <button onclick="appendValue('2')">2</button>
+            <button onclick="appendValue('3')">3</button>
+            <button onclick="appendValue('-')">−</button>
+
+            <button onclick="appendValue('0')">0</button>
+            <button onclick="appendValue('.')">.</button>
+            <button onclick="calculate()">=</button>
+            <button onclick="appendValue('+')">+</button>
+
+            <button class="clear" onclick="clearDisplay()">C</button>
+        </div>
+    </div>
 
     <script>
-        function isPrime(num) {
-            if (num < 2) return false;
-            for (let i = 2; i <= Math.sqrt(num); i++) {
-                if (num % i === 0) return false;
+        function appendValue(value) {
+            const display = document.getElementById("display");
+            if (display.value === "0") {
+                display.value = value;
+            } else {
+                display.value += value;
             }
-            return true;
         }
 
-        function toPersianNumber(number) {
-            return number.toString().replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[d]);
+        function clearDisplay() {
+            document.getElementById("display").value = "0";
         }
 
-        function findPrimes() {
-            const input = document.getElementById("numberInput").value;
-            const maxNumber = parseInt(input);
-            const resultDiv = document.getElementById("result");
-
-            if (isNaN(maxNumber) || maxNumber < 1) {
-                resultDiv.innerHTML = "<span>لطفاً یک عدد معتبر بزرگ‌تر از ۰ وارد کنید.</span>";
-                return;
+        function calculate() {
+            const display = document.getElementById("display");
+            try {
+                display.value = eval(display.value);
+            } catch (error) {
+                display.value = "خطا";
             }
-
-            const primes = [];
-            for (let i = 1; i <= maxNumber; i++) {
-                if (isPrime(i)) {
-                    primes.push(toPersianNumber(i));
-                }
-            }
-
-            resultDiv.innerHTML = `اعداد اول بین ۱ تا <span>${toPersianNumber(maxNumber)}</span>: <br> ${primes.join("، ")}`;
         }
     </script>
 </body>
