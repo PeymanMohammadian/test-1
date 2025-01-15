@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prime Number Finder</title>
+    <title>یافتن اعداد اول</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Tahoma', sans-serif;
             text-align: center;
             margin: 0;
             padding: 0;
             background-color: #f9f9f9;
+            direction: rtl;
         }
         h1 {
             color: #333;
@@ -20,6 +21,7 @@
             font-size: 16px;
             width: 200px;
             margin: 10px 0;
+            text-align: center;
         }
         button {
             padding: 10px 20px;
@@ -41,11 +43,11 @@
     </style>
 </head>
 <body>
-    <h1>Prime Number Finder</h1>
-    <p>Enter a number to find all prime numbers between 1 and that number:</p>
-    <input type="number" id="numberInput" placeholder="Enter a number" min="1">
+    <h1>یافتن اعداد اول</h1>
+    <p>یک عدد وارد کنید تا تمام اعداد اول بین ۱ تا آن عدد نمایش داده شود:</p>
+    <input type="number" id="numberInput" placeholder="عدد وارد کنید" min="1">
     <br>
-    <button onclick="findPrimes()">Find Primes</button>
+    <button onclick="findPrimes()">یافتن اعداد اول</button>
     <div class="result" id="result"></div>
 
     <script src="script.js"></script>
